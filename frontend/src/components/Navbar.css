@@ -1,0 +1,170 @@
+nav {
+  width: 100%;
+  height: 70px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.left h2 {
+  color: #007bff;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.left a {
+  text-decoration: none;
+}
+
+.search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 32px;
+}
+
+.search input[type="text"] {
+  width: 500px;
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px 0 0 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.search input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+.search i {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.18s;
+  
+}
+
+.search i:hover {
+  background: #0056b3;
+}
+
+.right a {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.18s;
+  width: auto;
+}
+
+.right a:hover {
+  background: #0056b3;
+}
+
+/* User Navigation Styles */
+.user-nav {
+  width: 100%;
+  height: 70px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand h2 {
+  color: #007bff;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.nav-brand {
+  text-decoration: none;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-cart {
+  position: relative;
+}
+
+.cart-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.5rem;
+  position: relative;
+  display: inline-block;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.cart-link:hover {
+  background-color: #f8f9fa;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 20px;
+}
+
+.logout-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+}
+
+.logout-btn i {
+  font-size: 16px;
+}
