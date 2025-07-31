@@ -13,7 +13,7 @@ const Cart = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/cart');
+      const response = await axios.get('https://ecommerce-website-backend-ux1z.onrender.com/cart');
       setCartItems(response.data);
       setLoading(false);
     } catch (error) {
@@ -26,10 +26,10 @@ const Cart = () => {
     try {
       if (newQuantity <= 0) {
         // Remove item if quantity is 0 or negative
-        await axios.delete(`http://localhost:3000/cart/remove/${productId}`);
+        await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.com/cart/remove/${productId}`);
       } else {
         // Update quantity
-        await axios.put(`http://localhost:3000/cart/update/${productId}`, {
+        await axios.put(`https://ecommerce-website-backend-ux1z.onrender.com/cart/update/${productId}`, {
           quantity: newQuantity
         });
       }
@@ -41,7 +41,7 @@ const Cart = () => {
 
   const removeItem = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3000/cart/remove/${productId}`);
+      await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.comcart/remove/${productId}`);
       fetchCartItems(); // Refresh cart
     } catch (error) {
       console.error('Error removing item:', error);
@@ -50,7 +50,7 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete('http://localhost:3000/cart/clear');
+      await axios.delete('https://ecommerce-website-backend-ux1z.onrender.com/cart/clear');
       fetchCartItems(); // Refresh cart
     } catch (error) {
       console.error('Error clearing cart:', error);

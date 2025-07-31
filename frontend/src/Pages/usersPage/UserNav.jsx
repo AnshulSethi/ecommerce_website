@@ -13,7 +13,7 @@ const UserNav = () => {
 
   const fetchCartCount = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/cart');
+      const response = await axios.get('https://ecommerce-website-backend-ux1z.onrender.com/cart');
       const totalItems = response.data.reduce((total, item) => total + item.quantity, 0);
       setCartCount(totalItems);
     } catch (error) {

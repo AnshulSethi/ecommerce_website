@@ -18,7 +18,7 @@ const UserProductDetail = () => {
 
   const getProductDetail = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/products/" + productId)
+      const res = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/products/" + productId)
       setProductData(res.data.product)
       setLoading(false)
     } catch (err) {
@@ -30,7 +30,7 @@ const UserProductDetail = () => {
   const addToCart = async () => {
     try {
       setAddingToCart(true)
-      await axios.post(`http://localhost:3000/cart/add/${productId}`, {
+      await axios.post(`https://ecommerce-website-backend-ux1z.onrender.com/cart/add/${productId}`, {
         quantity: quantity
       })
       alert('Product added to cart successfully!')

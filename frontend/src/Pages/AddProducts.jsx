@@ -20,7 +20,7 @@ const AddProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/");
+            const response = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/");
             setProducts(response.data.products);
             setLoading(false);
         } catch (error) {
@@ -32,7 +32,7 @@ const AddProducts = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         let formData = new FormData(e.target);
-        axios.post("http://localhost:3000/products/add", formData)
+        axios.post("https://ecommerce-website-backend-ux1z.onrender.com/products/add", formData)
             .then((res) => {
                 console.log(res);
                 alert('Product added successfully!');
@@ -54,7 +54,7 @@ const AddProducts = () => {
     const handleDelete = async (productId, productTitle) => {
         if (window.confirm(`Are you sure you want to delete "${productTitle}"?`)) {
             try {
-                await axios.delete(`http://localhost:3000/products/${productId}`);
+                await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.com/products/${productId}`);
                 alert('Product deleted successfully!');
                 fetchProducts(); // Refresh the list
             } catch (error) {
