@@ -13,7 +13,7 @@ const Cart = () => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/cart');
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/cart`);
       console.log("Cart items fetched:", response.data);
       setCartItems(response.data);
       setLoading(false);
@@ -26,15 +26,15 @@ const Cart = () => {
   const updateQuantity = async (productId, newQuantity) => {
     try {
       if (newQuantity <= 0) {
-        // Remove item if quantity is 0 or negative
-        await axios.delete(`http://localhost:3000/cart/remove/${productId}`);
+        
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/cart/remove/${productId}`);
       } else {
         // Update quantity
-        await axios.put(`http://localhost:3000/cart/update/${productId}`, {
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/cart/update/${productId}`, {
           quantity: newQuantity
         });
       }
-      fetchCartItems(); // Refresh cart
+      fetchCartItems();
     } catch (error) {
       console.error('Error updating quantity:', error);
     }
@@ -42,8 +42,8 @@ const Cart = () => {
 
   const removeItem = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3000/cart/remove/${productId}`);
-      fetchCartItems(); // Refresh cart
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/cart/remove/${productId}`);
+      fetchCartItems(); 
     } catch (error) {
       console.error('Error removing item:', error);
     }
@@ -51,8 +51,8 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete('http://localhost:3000/cart/clear');
-      fetchCartItems(); // Refresh cart
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/cart/clear`);
+      fetchCartItems();
     } catch (error) {
       console.error('Error clearing cart:', error);
     }

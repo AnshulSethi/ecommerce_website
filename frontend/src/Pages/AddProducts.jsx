@@ -33,7 +33,7 @@ const AddProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/");
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/`);
             console.log("Products fetched:", response.data.products);
             setProducts(response.data.products || []);
             setFilteredProducts(response.data.products || []);
@@ -47,7 +47,7 @@ const AddProducts = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         let formData = new FormData(e.target);
-        axios.post("http://localhost:3000/products/add", formData)
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/products/add`, formData)
             .then((res) => {
                 console.log("Product added:", res.data);
                 alert('Product added successfully!');
@@ -69,7 +69,7 @@ const AddProducts = () => {
     const handleDelete = async (productId, productTitle) => {
         if (window.confirm(`Are you sure you want to delete "${productTitle}"?`)) {
             try {
-                await axios.delete(`http://localhost:3000/products/${productId}`);
+                await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/products/${productId}`);
                 alert('Product deleted successfully!');
                 fetchProducts(); // Refresh the list
             } catch (error) {

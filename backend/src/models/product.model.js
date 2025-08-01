@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema({
     required: true
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields
+  timestamps: true 
 });
 
 const productModel = mongoose.model("product", productSchema);

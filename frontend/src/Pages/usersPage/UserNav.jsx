@@ -14,7 +14,7 @@ const UserNav = ({ onSearch, searchQuery = "" }) => {
 
   const fetchCartCount = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/cart');
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/cart`);
       console.log("Cart count fetched:", response.data);
       const totalItems = response.data.reduce((total, item) => total + item.quantity, 0);
       setCartCount(totalItems);

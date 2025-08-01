@@ -16,7 +16,7 @@ const ProductDetail = () => {
 
   const getProductDetail = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/products/${productId}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/${productId}`);
       console.log("Product detail:", res.data);
       setProductData(res.data.product);
       setLoading(false);
@@ -29,7 +29,7 @@ const ProductDetail = () => {
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete "${productData.title}"?`)) {
       try {
-        await axios.delete(`http://localhost:3000/products/${productId}`);
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/products/${productId}`);
         alert('Product deleted successfully!');
         navigate('/admin/'); // Redirect to admin dashboard
       } catch (error) {

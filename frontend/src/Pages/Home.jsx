@@ -28,7 +28,7 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/");
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/`);
       console.log("Products fetched:", res.data.products);
       setProductData(res.data.products || []);
       setFilteredProducts(res.data.products || []);
@@ -42,9 +42,9 @@ const Home = () => {
   const handleDelete = async (productId, productTitle) => {
     if (window.confirm(`Are you sure you want to delete "${productTitle}"?`)) {
       try {
-        await axios.delete(`http://localhost:3000/products/${productId}`);
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/products/${productId}`);
         alert('Product deleted successfully!');
-        getData(); // Refresh the product list
+        getData();
       } catch (error) {
         console.error('Error deleting product:', error);
         alert('Failed to delete product');

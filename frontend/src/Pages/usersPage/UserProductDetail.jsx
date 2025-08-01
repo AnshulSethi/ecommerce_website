@@ -18,7 +18,7 @@ const UserProductDetail = () => {
 
   const getProductDetail = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/products/${productId}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/${productId}`);
       console.log("Product detail:", res.data);
       setProductData(res.data.product);
       setLoading(false);
@@ -31,7 +31,7 @@ const UserProductDetail = () => {
   const addToCart = async () => {
     try {
       setAddingToCart(true);
-      await axios.post(`http://localhost:3000/cart/add/${productId}`, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/cart/add/${productId}`, {
         quantity: quantity
       });
       alert('Product added to cart successfully!');
