@@ -216,6 +216,51 @@ textarea:focus {
   font-size: 16px;
 }
 
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 18px;
+  color: #dc3545;
+}
+
+/* Search Results Info */
+.search-results-info {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  background: #e3f2fd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1976d2;
+  font-style: italic;
+}
+
+/* No Products State */
+.no-products {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.no-products h2 {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.no-products p {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .admin-container {

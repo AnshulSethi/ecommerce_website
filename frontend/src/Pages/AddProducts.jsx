@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const AddProducts = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [title, settitle] = useState('');
     const [image, setimage] = useState('');
     const [description, setdescription] = useState('');
@@ -13,15 +13,30 @@ const AddProducts = () => {
     const [price, setprice] = useState('');
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
         fetchProducts();
     }, []);
 
+    useEffect(() => {
+        if (searchQuery.trim() === '') {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter(product =>
+                product.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredProducts(filtered);
+        }
+    }, [searchQuery, products]);
+
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/");
-            setProducts(response.data.products);
+            const response = await axios.get("http://localhost:3000/");
+            console.log("Products fetched:", response.data.products);
+            setProducts(response.data.products || []);
+            setFilteredProducts(response.data.products || []);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -32,9 +47,9 @@ const AddProducts = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         let formData = new FormData(e.target);
-        axios.post("https://ecommerce-website-backend-ux1z.onrender.com/products/add", formData)
+        axios.post("http://localhost:3000/products/add", formData)
             .then((res) => {
-                console.log(res);
+                console.log("Product added:", res.data);
                 alert('Product added successfully!');
                 // Reset form
                 settitle('');
@@ -46,7 +61,7 @@ const AddProducts = () => {
                 fetchProducts();
             })
             .catch((err) => {
-                console.log(err);
+                console.error('Error adding product:', err);
                 alert('Failed to add product');
             });
     };
@@ -54,7 +69,7 @@ const AddProducts = () => {
     const handleDelete = async (productId, productTitle) => {
         if (window.confirm(`Are you sure you want to delete "${productTitle}"?`)) {
             try {
-                await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.com/products/${productId}`);
+                await axios.delete(`http://localhost:3000/products/${productId}`);
                 alert('Product deleted successfully!');
                 fetchProducts(); // Refresh the list
             } catch (error) {
@@ -64,9 +79,13 @@ const AddProducts = () => {
         }
     };
 
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    };
+
     return (
         <div>
-            <Navbar />
+            <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
             <div className="admin-container">
                 <div className="form-section">
                     <h2>Add New Product</h2>
@@ -140,15 +159,27 @@ const AddProducts = () => {
 
                 <div className="products-section">
                     <h2>Existing Products</h2>
+                    
+                    {searchQuery && (
+                        <div className="search-results-info">
+                            Found {filteredProducts.length} product(s) for "{searchQuery}"
+                        </div>
+                    )}
+
                     {loading ? (
                         <div className="loading">Loading products...</div>
-                    ) : products.length === 0 ? (
+                    ) : filteredProducts.length === 0 ? (
                         <div className="no-products">
-                            <p>No products found. Add your first product above!</p>
+                            <p>
+                                {searchQuery 
+                                    ? `No products found for "${searchQuery}". Add your first product above!`
+                                    : "No products found. Add your first product above!"
+                                }
+                            </p>
                         </div>
                     ) : (
                         <div className="products-grid">
-                            {products.map((product) => (
+                            {filteredProducts.map((product) => (
                                 <div key={product._id} className="product-card">
                                     <div className="product-image">
                                         <img src={product.image} alt={product.title} />

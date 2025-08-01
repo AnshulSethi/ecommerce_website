@@ -1,50 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import UserNav from './UserNav'
-import '../productDetail.css'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import UserNav from './UserNav';
+import '../productDetail.css';
 
 const UserProductDetail = () => {
-  const { productId } = useParams()
-  const navigate = useNavigate()
-  const [productData, setProductData] = useState({})
-  const [quantity, setQuantity] = useState(1)
-  const [loading, setLoading] = useState(true)
-  const [addingToCart, setAddingToCart] = useState(false)
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [productData, setProductData] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   useEffect(() => {
-    getProductDetail()
-  }, [])
+    getProductDetail();
+  }, [productId]);
 
   const getProductDetail = async () => {
     try {
-      const res = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/products/" + productId)
-      setProductData(res.data.product)
-      setLoading(false)
+      const res = await axios.get(`http://localhost:3000/products/${productId}`);
+      console.log("Product detail:", res.data);
+      setProductData(res.data.product);
+      setLoading(false);
     } catch (err) {
-      console.log(err)
-      setLoading(false)
+      console.error("Error fetching product:", err);
+      setLoading(false);
     }
-  }
+  };
 
   const addToCart = async () => {
     try {
-      setAddingToCart(true)
-      await axios.post(`https://ecommerce-website-backend-ux1z.onrender.com/cart/add/${productId}`, {
+      setAddingToCart(true);
+      await axios.post(`http://localhost:3000/cart/add/${productId}`, {
         quantity: quantity
-      })
-      alert('Product added to cart successfully!')
-      setAddingToCart(false)
+      });
+      alert('Product added to cart successfully!');
+      setAddingToCart(false);
     } catch (error) {
-      console.error('Error adding to cart:', error)
-      alert('Failed to add product to cart')
-      setAddingToCart(false)
+      console.error('Error adding to cart:', error);
+      alert('Failed to add product to cart');
+      setAddingToCart(false);
     }
-  }
+  };
 
   const goToCart = () => {
-    navigate('/cart')
-  }
+    navigate('/cart');
+  };
 
   if (loading) {
     return (
@@ -54,7 +55,18 @@ const UserProductDetail = () => {
           <div className="loading">Loading product details...</div>
         </div>
       </div>
-    )
+    );
+  }
+
+  if (!productData._id) {
+    return (
+      <div>
+        <UserNav />
+        <div className="product-container">
+          <div className="error">Product not found</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -110,7 +122,7 @@ const UserProductDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserProductDetail
+export default UserProductDetail;

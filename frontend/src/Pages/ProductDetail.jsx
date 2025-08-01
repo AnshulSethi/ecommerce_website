@@ -1,48 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import "./productDetail.css"
-import axios from 'axios'
-import Navbar from '../components/Navbar'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import "./productDetail.css";
+import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 const ProductDetail = () => {
-  const { productId } = useParams()
-  const navigate = useNavigate()
-  const [productData, setProductData] = useState({})
-  const [loading, setLoading] = useState(true)
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [productData, setProductData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProductDetail()
-  }, [])
+    getProductDetail();
+  }, [productId]);
 
   const getProductDetail = async () => {
     try {
-      const res = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/products/" + productId)
-      console.log(res)
-      setProductData(res.data.product)
-      setLoading(false)
+      const res = await axios.get(`http://localhost:3000/products/${productId}`);
+      console.log("Product detail:", res.data);
+      setProductData(res.data.product);
+      setLoading(false);
     } catch (err) {
-      console.log(err)
-      setLoading(false)
+      console.error("Error fetching product:", err);
+      setLoading(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete "${productData.title}"?`)) {
       try {
-        await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.com/products/${productId}`)
-        alert('Product deleted successfully!')
-        navigate('/admin/') // Redirect to admin dashboard
+        await axios.delete(`http://localhost:3000/products/${productId}`);
+        alert('Product deleted successfully!');
+        navigate('/admin/'); // Redirect to admin dashboard
       } catch (error) {
-        console.error('Error deleting product:', error)
-        alert('Failed to delete product')
+        console.error('Error deleting product:', error);
+        alert('Failed to delete product');
       }
     }
-  }
+  };
 
   const handleEdit = () => {
     // You can implement edit functionality here
-    alert('Edit functionality coming soon!')
-  }
+    alert('Edit functionality coming soon!');
+  };
 
   if (loading) {
     return (
@@ -52,7 +52,18 @@ const ProductDetail = () => {
           <div className="loading">Loading product details...</div>
         </div>
       </div>
-    )
+    );
+  }
+
+  if (!productData._id) {
+    return (
+      <div>
+        <Navbar />
+        <div className="product-container">
+          <div className="error">Product not found</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -84,7 +95,7 @@ const ProductDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;

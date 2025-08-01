@@ -7,20 +7,34 @@ import Navbar from "../components/Navbar";
 const Home = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getData();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredProducts(productData);
+    } else {
+      const filtered = productData.filter(product =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, productData]);
+
   const getData = async () => {
     try {
-      const res = await axios.get("https://ecommerce-website-backend-ux1z.onrender.com/");
-      console.log(res.data.products);
-      setProductData(res.data.products);
+      const res = await axios.get("http://localhost:3000/");
+      console.log("Products fetched:", res.data.products);
+      setProductData(res.data.products || []);
+      setFilteredProducts(res.data.products || []);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching products:", err);
       setLoading(false);
     }
   };
@@ -28,7 +42,7 @@ const Home = () => {
   const handleDelete = async (productId, productTitle) => {
     if (window.confirm(`Are you sure you want to delete "${productTitle}"?`)) {
       try {
-        await axios.delete(`https://ecommerce-website-backend-ux1z.onrender.com/products/${productId}`);
+        await axios.delete(`http://localhost:3000/products/${productId}`);
         alert('Product deleted successfully!');
         getData(); // Refresh the product list
       } catch (error) {
@@ -42,10 +56,14 @@ const Home = () => {
     navigate(`/admin/products/detail/${productId}`);
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
   if (loading) {
     return (
       <div>
-        <Navbar />
+        <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
         <div className="container">
           <div className="loading">Loading products...</div>
         </div>
@@ -55,18 +73,26 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
       <div className="container">
-        {productData.length === 0 ? (
+        {searchQuery && (
+          <div className="search-results-info">
+            Found {filteredProducts.length} product(s) for "{searchQuery}"
+          </div>
+        )}
+
+        {filteredProducts.length === 0 ? (
           <div className="no-products">
-            <h2>No products found</h2>
+            <h2>
+              {searchQuery ? `No products found for "${searchQuery}"` : "No products found"}
+            </h2>
             <p>Add some products to get started!</p>
             <Link to="/admin/products/add" className="add-product-btn">
               Add First Product
             </Link>
           </div>
         ) : (
-          productData.map((elem, index) => {
+          filteredProducts.map((elem, index) => {
             return (
               <div className="card" key={elem._id}>
                 <div className="top">
@@ -93,6 +119,10 @@ const Home = () => {
                       <i className="ri-delete-bin-line"></i>
                       Delete
                     </button>
+                  </div>
+                  <div className="admin-hint">
+                    <i className="ri-settings-line"></i>
+                    Admin: Manage product details
                   </div>
                 </div>
               </div>

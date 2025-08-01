@@ -3,8 +3,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "../../components/Navbar.css";
 
-const UserNav = () => {
+const UserNav = ({ onSearch, searchQuery = "" }) => {
   const [cartCount, setCartCount] = useState(0);
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,11 +14,13 @@ const UserNav = () => {
 
   const fetchCartCount = async () => {
     try {
-      const response = await axios.get('https://ecommerce-website-backend-ux1z.onrender.com/cart');
+      const response = await axios.get('http://localhost:3000/cart');
+      console.log("Cart count fetched:", response.data);
       const totalItems = response.data.reduce((total, item) => total + item.quantity, 0);
       setCartCount(totalItems);
     } catch (error) {
       console.error('Error fetching cart count:', error);
+      setCartCount(0);
     }
   };
 
@@ -25,11 +28,29 @@ const UserNav = () => {
     navigate('/login');
   };
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setLocalSearchQuery(value);
+    if (onSearch) {
+      onSearch(value);
+    }
+  };
+
   return (
     <nav className="user-nav">
       <Link to="/user" className="nav-brand">
         <h2>Shopy</h2>
       </Link>
+
+      <div className='search'>
+        <input 
+          type="text" 
+          placeholder="Search products..."
+          value={localSearchQuery}
+          onChange={handleSearchChange}
+        />
+        <i className="ri-search-line"></i>
+      </div>
 
       <div className="nav-right">
         <div className="nav-cart">
