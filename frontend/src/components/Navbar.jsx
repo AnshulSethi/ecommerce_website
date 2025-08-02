@@ -20,7 +20,7 @@ const Navbar = ({ onSearch, searchQuery = "" }) => {
 
   return (
     <nav>
-      <h2>Shopy</h2>
+      <h2>Fur & Feeds</h2>
       <div className='search'>
         <input 
           type="text" 

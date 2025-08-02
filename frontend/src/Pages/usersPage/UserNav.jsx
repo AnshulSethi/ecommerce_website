@@ -39,7 +39,7 @@ const UserNav = ({ onSearch, searchQuery = "" }) => {
   return (
     <nav className="user-nav">
       <Link to="/user" className="nav-brand">
-        <h2>Shopy</h2>
+        <h2>Fur & Feeds</h2>
       </Link>
 
       <div className='search'>

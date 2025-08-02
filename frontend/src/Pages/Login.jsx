@@ -21,7 +21,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h1>Welcome to Shopy</h1>
+        <h1>Welcome to Fur & Feeds</h1>
         <p>Enter your role to continue</p>
         
         <form onSubmit={handleLogin} className="login-form">
