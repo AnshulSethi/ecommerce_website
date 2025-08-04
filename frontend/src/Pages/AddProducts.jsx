@@ -167,7 +167,7 @@ const AddProducts = () => {
                     )}
 
                     {loading ? (
-                        <div className="loading">Loading products...</div>
+                        <div className="loading">Loading products... Please wait 1 minute to 2 minutes the products will load surely. Please have patience</div>
                     ) : filteredProducts.length === 0 ? (
                         <div className="no-products">
                             <p>
