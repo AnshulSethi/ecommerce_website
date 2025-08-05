@@ -7,19 +7,49 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 // GET all products
+// router.get("/", async (req, res) => {
+//   try {
+//     const products = await productModel.find().sort({ createdAt: -1 });
+//     res.status(200).json({ 
+//       message: "Products found", 
+//       products,
+//       count: products.length 
+//     });
+//   } catch (error) {
+//     console.error('Error fetching products:', error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
 router.get("/", async (req, res) => {
   try {
-    const products = await productModel.find().sort({ createdAt: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const skip = (page - 1) * limit;
+    
+    const products = await productModel
+      .find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    
+    const total = await productModel.countDocuments();
+    
     res.status(200).json({ 
       message: "Products found", 
       products,
-      count: products.length 
+      pagination: {
+        current: page,
+        pages: Math.ceil(total / limit),
+        total
+      }
     });
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 // Search products by title
 router.get("/search", async (req, res) => {
